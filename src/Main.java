@@ -1,62 +1,118 @@
-import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
+    static String winer ;
+    static int winUserCounter=0 ;
+    static int winComputerCounter=0;
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         Random rand = new Random();
-        String [][] arr ={{"1","2","3"},{"4","5","6"},{"7","8","9"}};
 
 
-        System.out.println("--- 1 round "+"---");
-
-        while (true){
+        int round = 1;
+        while (!(winUserCounter>3||winComputerCounter>3||round==4)) {
+            boolean isFinshturn = false;
+            String[][] arr = {{"1", "2", "3"}, {"4", "5", "6"}, {"7", "8", "9"}};
+            System.out.println("---  "+round+" round ---");
             System.out.println("YOU ARE X !");
             print2D(arr);
-            System.out.println("Enter the position you want : ");
-            String userInput = input.nextLine();
 
-            for (int i = 0; i < arr.length ; i++) {
-                for (int j = 0; j < arr.length; j++) {
-                    if(userInput.contains(arr[i][j])){
-                        arr[i][j]="X";
+            while (!isFinshturn) {
+                boolean checkUserTurn = false;
+                while (!checkUserTurn) {
+                    System.out.println("Enter the position you want : ");
+                    String userInput = input.nextLine();
+                    for (int i = 0; i < arr.length; i++) {
+                        for (int j = 0; j < arr.length; j++) {
+                            if (userInput.contains(arr[i][j])) {
+                                arr[i][j] = "X";
+                                checkUserTurn = true;
 
-                    }
-                }
-            }
-            boolean checkComputerTurn = false ;
-            while (!checkComputerTurn){
-
-            for (int i = 0; i < arr.length ; i++) {
-                for (int j = 0; j < arr.length; j++) {
-
-                        String  computer = String.valueOf((int) rand.nextInt(1,10));
-                        if(arr[i][j].contentEquals(computer)) {
-                        arr[i][j] = "O";
-                        checkComputerTurn=true;
-
-                    }else {
-                            continue;
+                            }
                         }
-
                     }
                 }
+                boolean checkComputerTurn = false;
+                while (!checkComputerTurn) {
+
+                    for (int i = 0; i < arr.length && !checkComputerTurn; i++) {
+                        for (int j = 0; j < arr[i].length && !checkComputerTurn; j++) {
+                            String computer = String.valueOf((int) rand.nextInt(1, 10));
+                            if (arr[i][j].contentEquals(computer)) {
+                                arr[i][j] = "O";
+                                checkComputerTurn = true;
+
+                            } else {
+                                continue;
+                            }
+
+                        }
+                    }
+
+                }
+
+                print2D(arr);
+                isFinshturn = isWin(arr);
             }
-
-
-
+            round++;
+            System.out.println(winer);
         }
-
 
     }
 
-    public static void print2D(String[][] mat)
-    {
+    public static void print2D(String[][] mat) {
         for (String[] row : mat) {
-            System.out.println(row[0]+'|'+row[1]+'|'+row[2]+"\n-----");
+            System.out.println(row[0] + '|' + row[1] + '|' + row[2] + "\n-----");
         }
     }
 
+    public static boolean isWin(String[][] arr) {
+        for (int row = 0; row < 3; row++) {
+            if (arr[row][0].equals(arr[row][1]) && arr[row][1].equals(arr[row][2])) {
+                if(arr[row][0].equals("X")){
+                    winer="X wins!";
+                    winUserCounter++;
+                }else {
+                    winer="O win!";
+                    winComputerCounter++;
+                }
+                return true;
+            }
+        }
+        for (int col = 0; col < 3; col++) {
+            if (arr[0][col].equals(arr[1][col]) && arr[1][col].equals(arr[2][col])) {
+                if(arr[col][0].equals("X")){
+                    winer="X wins!";
+                    winUserCounter++;
+                }else {
+                    winer="O win!";
+                    winComputerCounter++;
+                }
+                return true;
+            }
+        }
+        if (arr[0][0].equals(arr[1][1]) && arr[1][1].equals(arr[2][2])) {
+            if(arr[0][0].equals("X")){
+                winer="X wins!";
+                winUserCounter++;
+            }else {
+                winer="O win!";
+                winComputerCounter++;
+            }
+            return true ;
+        }
+        if  (arr[0][2].equals(arr[1][1]) && arr[1][1].equals(arr[2][0])){
+            if(arr[2][0].equals("X")){
+                winer="X wins!";
+                winUserCounter++;
+            }else {
+                winer="O win!";
+                winComputerCounter++;
+            }
+            return true ;
+        }
+        return false;
     }
+}
 
