@@ -10,37 +10,43 @@ public class Main {
 
 
         System.out.println("--- 1 round "+"---");
-        print2D(arr);
+
         while (true){
             System.out.println("YOU ARE X !");
+            print2D(arr);
             System.out.println("Enter the position you want : ");
+            String userInput = input.nextLine();
 
             for (int i = 0; i < arr.length ; i++) {
                 for (int j = 0; j < arr.length; j++) {
-                    arr[i][j]=input.nextLine();
+                    if(userInput.contains(arr[i][j])){
+                        arr[i][j]="X";
+
+                    }
+                }
+            }
+            boolean checkComputerTurn = false ;
+            while (!checkComputerTurn){
+
+            for (int i = 0; i < arr.length ; i++) {
+                for (int j = 0; j < arr.length; j++) {
+
+                        String  computer = String.valueOf((int) rand.nextInt(1,10));
+                        if(arr[i][j].contentEquals(computer)) {
+                        arr[i][j] = "O";
+                        checkComputerTurn=true;
+
+                    }else {
+                            continue;
+                        }
+
+                    }
                 }
             }
 
+
+
         }
-
-
-
-
-        /*
-        String [][] arr =new  String[3][3];
-        for (int i = 0; i < arr.length ; i++) {
-            for (int j = 0; j < arr.length; j++) {
-                arr[i][j]=input.nextLine();
-            }
-        }
-        for (int i = 0; i <arr.length ; i++) {
-            for (int j = 0; j < arr.length; j++) {
-                System.out.print(arr[i][j]+ " ");
-            }
-            System.out.println();
-        }
-
-         */
 
 
     }
