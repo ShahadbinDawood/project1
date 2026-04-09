@@ -8,11 +8,14 @@ public class Main {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         Random rand = new Random();
+        boolean done = false;
 
 
         int round = 1;
-        while (!(winUserCounter>3||winComputerCounter>3||round==4)) {
+
+        while (!done) {
             boolean isFinshturn = false;
+            int turns = 0;
             String[][] arr = {{"1", "2", "3"}, {"4", "5", "6"}, {"7", "8", "9"}};
             System.out.println("---  "+round+" round ---");
             System.out.println("YOU ARE X !");
@@ -28,20 +31,30 @@ public class Main {
                             if (userInput.contains(arr[i][j])) {
                                 arr[i][j] = "X";
                                 checkUserTurn = true;
+                                turns++;
 
                             }
                         }
                     }
+                }
+                isFinshturn = isWin(arr);
+                if (isFinshturn) break;
+
+                if (turns == 9) {
+                    winer = "It's a Draw!";
+                    isFinshturn = true;
+                    break;
                 }
                 boolean checkComputerTurn = false;
                 while (!checkComputerTurn) {
 
                     for (int i = 0; i < arr.length && !checkComputerTurn; i++) {
                         for (int j = 0; j < arr[i].length && !checkComputerTurn; j++) {
-                            String computer = String.valueOf((int) rand.nextInt(1, 10));
+                            String computer = String.valueOf((int) rand.nextInt(9)+1);
                             if (arr[i][j].contentEquals(computer)) {
                                 arr[i][j] = "O";
                                 checkComputerTurn = true;
+                                turns++;
 
                             } else {
                                 continue;
@@ -57,7 +70,14 @@ public class Main {
             }
             round++;
             System.out.println(winer);
+            if(winUserCounter==2||winComputerCounter==2){
+                done=true;
+
+            }
         }
+        if(winUserCounter==2){
+            System.out.println("YOU WON !!");
+        }else System.out.println("GAME OVER " );
 
     }
 
@@ -82,7 +102,7 @@ public class Main {
         }
         for (int col = 0; col < 3; col++) {
             if (arr[0][col].equals(arr[1][col]) && arr[1][col].equals(arr[2][col])) {
-                if(arr[col][0].equals("X")){
+                if(arr[0][col].equals("X")){
                     winer="X wins!";
                     winUserCounter++;
                 }else {
