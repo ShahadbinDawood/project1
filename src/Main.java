@@ -9,9 +9,10 @@ public class Main {
         Scanner input = new Scanner(System.in);
         Random rand = new Random();
         boolean done = false;
-
-
+        System.out.println("Do you want to play one round or three? (Enter 1 or 3): ");
+        int totalRoundsToPlay = Integer.parseInt(input.nextLine());
         int round = 1;
+
 
         while (!done) {
             boolean isFinshturn = false;
@@ -68,16 +69,21 @@ public class Main {
                 print2D(arr);
                 isFinshturn = isWin(arr);
             }
-            round++;
-            System.out.println(winer);
-            if(winUserCounter==2||winComputerCounter==2){
-                done=true;
-
+            if (totalRoundsToPlay == 1) {
+                done = true;
+            } else if (winUserCounter == 2 || winComputerCounter == 2 || round >= 3) {
+                done = true;
             }
+
+            round++;
         }
-        if(winUserCounter==2){
-            System.out.println("YOU WON !!");
-        }else System.out.println("GAME OVER " );
+        if (winUserCounter > winComputerCounter) {
+            System.out.println("CONGRATULATIONS! YOU WON THE MATCH!");
+        } else if (winComputerCounter > winUserCounter) {
+            System.out.println("GAME OVER! THE COMPUTER WON THE MATCH!");
+        } else {
+            System.out.println("THE MATCH ENDED IN A TIE!");
+        }
 
     }
 
